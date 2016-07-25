@@ -1,0 +1,113 @@
+<!doctype html>
+<html ng-app="Sun" lang="pt-br" >
+    <head>
+        <title>Praise the Sun \o/</title>
+        <meta charset="UTF-8">
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+        <style>
+            .active{
+                font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div ng-controller="getProdutos as obj">
+            <div ng-repeat="produto in obj.produtos">
+                <h1> {{produto.nome}} </h1>
+                <img src="" ng-src="{{produto.image[0].full}}" width="150" ng-show="produto.image.length > 0">
+                <span ng-show="produto.promocao">Promoção =]</span>
+                <span ng-show="produto.val > 5">{{produto.val|currency}}</span>
+
+                <div ng-controller="controlTabs as tabs">
+                    <a href ng-click="tabs.setTab('comentario');" ng-class="{active: tabs.isSelected('comentario')}"> Comentários</a>
+                    <a href ng-click="tabs.setTab('descricao');" ng-class="{active: tabs.isSelected('descricao')}"> Descrição</a>
+                    <div ng-show="tabs.isSelected('descricao')">
+                        <h2>Descrição</h2>
+                        <span ng-bind-html="obj.trustHtml(produto.descricao)"></span>
+                    </div>
+                    <div ng-show="tabs.isSelected('comentario')">
+                        <h2>Comentarios</h2>
+                        <span>Aguarde...</span>
+                    </div>
+                </div>
+            </div>
+            <button type="button" ng-click="obj.change()">Fun with POST!!!</button>
+        </div>
+        <script>
+
+            var app = angular.module('Sun', []);
+            var produtos = [
+                {
+                    nome: 'Produto 1',
+                    promocao: false,
+                    descricao: " Descricao  Descricao  Descricao  Descricao <br>  Descricao  Descricao ",
+                    comentarios: [
+                        {
+                            autor: 'Autor 1',
+                            comentario: 'Comentário Comentário Comentário Comentário Comentário Comentário Comentário <br> !!!'
+                        },
+                        {
+                            autor: 'Autor 2',
+                            comentario: 'Comentário Comentário Comentário Comentário Comentário Comentário Comentário <br> @@@@@'
+                        }
+                    ],
+                    val: 9.2
+                },
+                {
+                    nome: 'Produto 2',
+                    promocao: true,
+                    descricao: " Descricao  Descricao  Descricao  Descricao <br>  Descricao  Descricao ",
+                    val: 6,
+                    image: [
+                        {full: 'img(1).jpg'},
+                        {full: 'img(2).jpg'}
+                    ]
+                },
+                {
+                    nome: 'Produto 3',
+                    promocao: false,
+                    descricao: " Descricao  Descricao  Descricao  Descricao <br>  Descricao  Descricao ",
+                    val: 2,
+                    image: [
+                        {full: 'img(3).jpg'},
+                        {full: 'img(4).jpg'}
+                    ]
+                }
+            ];
+            app.controller('getProdutos', function ($scope, $sce, $http) {
+                this.produtos = produtos;
+                this.trustHtml = function (txt) {
+                    return $sce.trustAsHtml(txt);
+
+                };
+                this.change = function () {
+
+                    $http({
+                        method: 'GET',
+                        url: 'teste.php'
+                    }).then(function successCallback(response) {
+                        produtos = response.data;
+
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                    this.produtos = produtos;
+                };
+            });
+            app.controller('controlTabs', function ($scope, $sce, $http) {
+                //this.produtos = produtos;
+                this.tab = 'descricao';
+                this.setTab = function (newTab) {
+                    this.tab = newTab;
+
+                };
+                this.isSelected = function (checkTab) {
+                    return this.tab === checkTab;
+                };
+
+            });
+        </script>
+    </body>
+</html>

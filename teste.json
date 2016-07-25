@@ -1,0 +1,46 @@
+[
+    {
+        "nome": "Produto 111",
+        "promocao": false,
+        "descricao": " Descricao  Descricao  Descricao  Descricao <br>  Descricao  Descricao ",
+        "comentarios": [
+            {
+                "autor": "Autor 1",
+                "comentario": "Comentário Comentário Comentário Comentário Comentário Comentário Comentário <br> !!!"
+            },
+            {
+                "autor": "Autor 2",
+                "comentario": "Comentário Comentário Comentário Comentário Comentário Comentário Comentário <br> @@@@@"
+            }
+        ],
+        "val": 9.2
+    },
+    {
+        "nome": "Produto 222",
+        "promocao": true,
+        "descricao": " Descricao  Descricao  Descricao  Descricao <br>  Descricao  Descricao ",
+        "val": 6,
+        "image": [
+            {
+                "full": "img(1).jpg"
+            },
+            {
+                "full": "img(2).jpg"
+            }
+        ]
+    },
+    {
+        "nome": "Produto 333",
+        "promocao": false,
+        "descricao": " Descricao  Descricao  Descricao  Descricao <br>  Descricao  Descricao ",
+        "val": 2,
+        "image": [
+            {
+                "full": "img(3).jpg"
+            },
+            {
+                "full": "img(4).jpg"
+            }
+        ]
+    }
+]
